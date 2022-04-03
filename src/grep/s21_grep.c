@@ -18,19 +18,19 @@ int main(int argc, char **argv) {
 void print_grep(int argc, char **argv, FILE *fp, tNode **list, struct Bool flag) {
     regex_t regex;
     int count = 0;
-    int isPattern = 0;  // Флаг, показывающий закончили уже читать паттерны и перешли к файлам или нет
-    tNode *tmp = NULL;  // Заготовленный указатель, понадобится ниже
-    char *temp = (char *)calloc(1024, sizeof(char));  // память под считываемую строку из файла
+    int isPattern = 0;
+    tNode *tmp = NULL;
+    char *temp = (char *)calloc(1024, sizeof(char));
     char **pattern_arr = (char **)calloc(100, sizeof(char *));
     for (int p = 0; p < 100; p++) {
         pattern_arr[p] = (char *)calloc(100, sizeof(char));
     }
     regmatch_t *match = (regmatch_t *)malloc(1024 * sizeof(regmatch_t));
-    for (int i = flag.e_count + 1; i < argc; i++) {  // Цикл по аргументам начинаем с количества шаблонов + 1
-        char *str = argv[i];  // указатель на текущую строку в массиве строк
-        int isOneFile;  // Позже будем проверять, сколько файлов нам надо прочитать
+    for (int i = flag.e_count + 1; i < argc; i++) {
+        char *str = argv[i];
+        int isOneFile;
         if (str[0] != '-' && isPattern == 0) {
-            if (flag.e_count > 1 && !flag.f) {  // Если счетчик шаблонов больше единицы, складываем в стек
+            if (flag.e_count > 1 && !flag.f) {  // if the patterns counter more then 1 push pattern into stack
                 int j = 0;
                 while (j < flag.e_count) {
                     push(list, argv[i]);
@@ -44,13 +44,13 @@ void print_grep(int argc, char **argv, FILE *fp, tNode **list, struct Bool flag)
                 patternFileRead(fp, flag, list, argv[i], pattern_arr);
                 i++;
             }
-            tmp = *list;  // и предусмотрительно записываем адрес начала списка шаблонов!!!
-            isPattern = 1;  // опять же, условие надо пересмотреть!!!
-            isOneFile = argc - i;  // А вот и проверка на количество файлов
+            tmp = *list;  // we have to memorize start address of patterns list
+            isPattern = 1;
+            isOneFile = argc - i;
         }
         if (flag.h)
             isOneFile = 1;
-        if (isPattern) {  // Если чтение паттернов закончено - приступаем к чтению файлов
+        if (isPattern) {  // if we have finised reading patterns begin to read files
             fp = fopen(argv[i], "r");
             if (!fp) {
                 if (!flag.s) printf("s21_grep: %s: No such file or directory\n", argv[i]);
@@ -60,14 +60,14 @@ void print_grep(int argc, char **argv, FILE *fp, tNode **list, struct Bool flag)
             while (fgetc(fp) != EOF) {
                 fseek(fp, -1, SEEK_CUR);
                 fgets(temp, 1024, fp);
-                *list = tmp;  // здесь циклически каждый раз указатель списка возвращается на начало
-                char *value = get_value(list);  // тут выдергиваем первое значение из списка
+                *list = tmp;  // the pointer has returned to start address
+                char *value = get_value(list);
                 int check_exec = 0;
-                while (value) {  // пока не кончатся значения в списке
+                while (value) {
                     if (flag.i)
-                        regcomp(&regex, value, REG_ICASE);  // игнорируем регистр
+                        regcomp(&regex, value, REG_ICASE);
                     else
-                        regcomp(&regex, value, 0);  // а это типа нормальная компиляция должна быть
+                        regcomp(&regex, value, 0);
                     if (flag.o && !flag.l && !flag.c) {
                         #ifdef __APPLE__
                         if (!regexec(&regex, temp, 1024, match, 0)) {
@@ -78,17 +78,17 @@ void print_grep(int argc, char **argv, FILE *fp, tNode **list, struct Bool flag)
                       o_flag(&regex, match, argv[i], temp, flag.n, string_num,
                              isOneFile);
                     } else {
-                        check_exec = regexec(&regex, temp, 0, NULL, 0);  // найдены ли совпадения
+                        check_exec = regexec(&regex, temp, 0, NULL, 0);
                         if (!check_exec && !flag.v)
                             count++;
-                        regfree(&regex);  // чистим за собой
+                        regfree(&regex);
                     }
                     if (!check_exec && flag.l) break;
                     if (!check_exec && !flag.v && !flag.o && !flag.c) {
                         print_overlap(argv[i], temp, flag.n, string_num, isOneFile);
                         break;
                     }
-                    value = get_value(list);  // и дергаем следующее значение из списка
+                    value = get_value(list);
                     if (!check_exec && flag.v) break;
                 }
                 if (check_exec && flag.v) {
@@ -111,8 +111,8 @@ void print_grep(int argc, char **argv, FILE *fp, tNode **list, struct Bool flag)
         fclose(fp);
         }
     }
-    *list = tmp;  // опять возвращаем указатель на начало списка, чтоб удалить список
-    deleteList(list);  // здесь и далее происходит чистка
+    *list = tmp;  // return the pointer again to start of the list to remove that list
+    deleteList(list);
     free(temp);
     free(match);
     for (int p = 0; p < 100; p++) {
