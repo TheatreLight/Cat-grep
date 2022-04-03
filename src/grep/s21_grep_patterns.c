@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "s21_grep.h"
 
-/* Функции для стека паттернов */
+/* Patterns stack functions */
 void push(tNode **head, char *string) {
     tNode *tmp = (tNode*)malloc(sizeof(tNode));
     tmp->data = string;
