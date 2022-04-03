@@ -30,7 +30,7 @@ struct Bool parcer(int argc, char **argv, struct Bool flag) {
 
         case 'e':
             flag.e = 1;
-            flag.e_count++;  // Считаем количество шаблонов
+            flag.e_count++;  // count patterns
             break;
 
         case 'i':
