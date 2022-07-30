@@ -1,6 +1,6 @@
 # bashutils
 
-It's my own realisations of bash utils - cat & grep, which I made in school21. 
+It's my own realisations of bash utils - cat & grep. 
 
 make - build cat & grep, named s21_cat and s21_grep;
 
