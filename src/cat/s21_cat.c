@@ -5,93 +5,123 @@
 
 int main(int argc, char**argv) {
     FILE *fp = NULL;
-    struct Bool flag = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    struct Bool result_flag = parcer(argc, argv, flag);
-    printer(fp, argc, argv, result_flag);
+    struct Bool flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    struct Bool current_flags = parcer(argc, argv, flags);
+    cat(fp, argc, argv, current_flags);
     return 0;
 }
 
-/* Apply parameters and output them to STDOUT */
-
-void printer(FILE *fp, int argc, char **argv, struct Bool flag) {
-    char ch;
-    for (int i = 1; i < argc; i++) {
-        if (flag.use_flags)  // break the loop if we have unknown parameter
-            break;
+void cat(FILE *fp, int argc, char **argv, struct Bool flag) {
+    if (flag.unknown) return;
+    for (int i = 1; i < argc; ++i) {
         char *str = argv[i];
-        if (str[0] != '-') {  // check if it just a parameters string or a filename already
-            char old = '\n';    // this char we need for numeration of a new line
-            int b = 1;  // the line counter
-            int n = 1;  // the simple counter
+        if (is_filename(str[0])) {
             fp = fopen(argv[i], "r");
-            while ((ch = fgetc(fp)) != EOF) {  // read the file per character
-                if (flag.s) {
-                    static int s = 1;
-                    if (ch == '\n') {  // looking for an empty line
-                        s++;
-                    if (s >= 3)  // if three and more line breaks detected
-                        continue;  // it mean duplicating of empty string, skip it
-                    } else {
-                        s = 0;  // if it not detected skip the counter to zero
-                    }
-                }
-                if (flag.b) {
-                    static int b_found = 1;  // line that must be numbered has detected
-                    if (ch == '\n')  // found the line break
-                        b_found++;
-                    if (ch != '\n' && b_found > 0) {  // if another line doeasn't start from \n
-                            printf("%6d\t", b);  // but line break has memorized already, number the line
-                        b++;  // increase the counter
-                        b_found = 0;  // skip flag to zero 
-                    }
-                    } else if (flag.n) {  // numbering lines one by one if turned off numbering not-empty lines
-                        if (old == '\n') {
-                                printf("%6d\t", n);
-                            n++;
-                        }
-                        old = ch;
-                    }
-                if (flag.t) {  // special function for print nonprintig symbols
-                    nonprint_printer(ch, flag.t, flag.e, flag.T, flag.E);
-                }
-                if (flag.T && !flag.t) {
-                    if (ch == 9) {
-                        nonprint_printer(ch, flag.t, flag.e, flag.T, flag.E);
-                        continue;
-                    }
-                }
-                if (flag.e && !flag.t) {
-                    nonprint_printer(ch, flag.t, flag.e, flag.T, flag.E);
-                }
-                if (flag.E && !flag.e) {
-                    nonprint_printer(ch, flag.t, flag.e, flag.T, flag.E);
-                }
-                if (!flag.t && !flag.e) {
-                    putchar(ch);  // and then we output all another information which has not been edited
-                }
-            }
-        fclose(fp);
+            stream_handler(fp, flag);
+            fclose(fp);
         }
     }
 }
 
-/* non-printing symbols printer */
+void stream_handler(FILE* fp, struct Bool flags) {
+    char ch;
+    int is_new_line = TRUE_;
+    int not_empty_count = 1;
+    int newline_count = 1;
+    int empty_count = 1;
+    while ((ch = fgetc(fp)) != EOF) {
+        if (flags.s) {
+            if ((empty_count = squeeze_empty(empty_count, ch)) >= 3) continue;
+        }
+        if (flags.b) {
+            not_empty_count = not_empty_line_number(&is_new_line, not_empty_count, ch);
+        } else if (flags.n) {
+            newline_count = new_line_number(&is_new_line, newline_count, ch);
+        }
+        if (flags.t) {
+            nonprint_symbols(ch, flags);
+        }
+        if (flags.T && !flags.t) {
+            if (ch == 9) {
+                nonprint_symbols(ch, flags);
+                continue;
+            }
+        }
+        if (flags.e && !flags.t) {
+            nonprint_symbols(ch, flags);
+        }
+        if (flags.E && !flags.e) {
+            nonprint_symbols(ch, flags);
+        }
+        if (!flags.t && !flags.e) {
+            putchar(ch);
+        }
+    }
+}
 
-void nonprint_printer(char ch, int flag_t, int flag_e, int flag_T, int flag_E) {
-    if ((ch < 9 || ch > 10) && ch < 32 && (flag_t || flag_e)) {
+int new_line_number(int* is_new_line, int n, char ch) {
+    if (*is_new_line) {
+        printf("%6d\t", n);
+        n++;
+    }
+    *is_new_line = check_newline(ch);
+    return n;
+}
+
+int not_empty_line_number(int* is_new_line, int b, char ch) {
+    if (ch != '\n' && *is_new_line) {
+        printf("%6d\t", b);
+        b++;
+    }
+    *is_new_line = check_newline(ch);
+    return b;
+}
+
+int squeeze_empty(int empty_count, char ch) {
+    if (ch == '\n') empty_count++;
+    else empty_count = 0;
+    return empty_count;
+}
+
+void nonprint_symbols(char ch, struct Bool flags) {
+    if (is_esc_symbols(ch, flags)) {
         putchar('^');
         putchar(ch + 64);
-    } else if (ch == 127 && (flag_t || flag_e)) {
+    } else if (is_del_symbol(ch, flags)) {
         putchar('^');
         putchar(63);
-    } else if (ch == 9 && (flag_t || flag_T)) {
+    } else if (is_tab_symbol(ch, flags)) {
         putchar('^');
         putchar('I');
-    } else if (ch == 10 && (flag_e || flag_E)) {
+    } else if (is_newline_symbol(ch, flags)) {
         putchar('$');
-        if (flag_e)
+        if (flags.e)
             putchar('\n');
-    } else if (!flag_T && !flag_E) {
+    } else if (!flags.T && !flags.E) {
         putchar(ch);
     }
+}
+
+int check_newline(char ch) {
+    return ch == '\n';
+}
+
+int is_filename(char ch) {
+    return ch != '-';
+}
+
+int is_esc_symbols(char ch, struct Bool flags) {
+    return (ch < 9 || ch > 10) && ch < 32 && (flags.t || flags.e);
+}
+
+int is_del_symbol(char ch, struct Bool flags) {
+    return ch == 127 && (flags.t || flags.e);
+}
+
+int is_tab_symbol(char ch, struct Bool flags) {
+    return ch == 9 && (flags.t || flags.T);
+}
+
+int is_newline_symbol(char ch, struct Bool flags) {
+    return ch == 10 && (flags.e || flags.E);
 }

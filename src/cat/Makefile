@@ -4,7 +4,7 @@ s21_cat:
 	gcc s21_cat.c ../common/parcer.c -o s21_cat
 
 debug:
-	gcc s21_cat.c -o s21_cat -g
+	gcc s21_cat.c ../common/parcer.c -o s21_cat -g
 
 test:
 	bash ./tests/test.sh
