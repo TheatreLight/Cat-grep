@@ -1,5 +1,5 @@
-#ifndef SRC_CAT_S21_CAT_H_
-#define SRC_CAT_S21_CAT_H_
+#ifndef SRC_CAT_S_CAT_H_
+#define SRC_CAT_S_CAT_H_
 
 #include "../common/parcer.h"
 
@@ -15,4 +15,5 @@ int is_esc_symbols(char, struct Bool);
 int is_del_symbol(char, struct Bool);
 int is_tab_symbol(char, struct Bool);
 int is_newline_symbol(char, struct Bool);
-#endif  // SRC_CAT_S21_CAT_H_
+
+#endif  // SRC_CAT_S_CAT_H_

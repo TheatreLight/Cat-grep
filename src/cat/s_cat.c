@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <getopt.h>
-#include "s21_cat.h"
+#include "s_cat.h"
 #include "../common/parcer.h"
 
 int main(int argc, char**argv) {
