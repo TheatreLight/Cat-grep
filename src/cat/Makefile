@@ -1,10 +1,10 @@
 all:
 
 s_cat:
-	gcc s_cat.c ../common/parcer.c -o s21_cat
+	gcc main.c s_cat.c ../common/parcer.c -o s21_cat
 
 debug:
-	gcc s_cat.c ../common/parcer.c -o s21_cat -g
+	gcc main.c s_cat.c ../common/parcer.c -o s21_cat -g
 
 test:
 	bash ./tests/test.sh

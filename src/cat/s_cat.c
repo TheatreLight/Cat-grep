@@ -1,15 +1,4 @@
-#include <stdio.h>
-#include <getopt.h>
 #include "s_cat.h"
-#include "../common/parcer.h"
-
-int main(int argc, char**argv) {
-    FILE *fp = NULL;
-    struct Bool flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    struct Bool current_flags = parcer(argc, argv, flags);
-    cat(fp, argc, argv, current_flags);
-    return 0;
-}
 
 void cat(FILE *fp, int argc, char **argv, struct Bool flag) {
     if (flag.unknown) return;

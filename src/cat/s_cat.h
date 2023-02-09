@@ -3,6 +3,8 @@
 
 #include "../common/parcer.h"
 
+#include <stdio.h>
+
 void cat(FILE*, int, char**, struct Bool);
 void stream_handler(FILE*, struct Bool);
 int new_line_number(int*, int, char);
