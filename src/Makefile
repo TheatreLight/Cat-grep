@@ -1,6 +1,6 @@
 all:
 	make -C cat/ wincat
-	make -C grep/ s21_grep
+	make -C grep/ wingrep
 
 test:
 	make -C cat/ test

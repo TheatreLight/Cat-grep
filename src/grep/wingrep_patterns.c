@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "s21_grep.h"
+#include "wingrep.h"
 
 /* Patterns stack functions */
 void push(tNode **head, char *string) {
@@ -18,7 +18,7 @@ char* get_value(tNode **head) {
     return value;
 }
 
-void deleteList(tNode **head) {
+void DeleteStack(tNode **head) {
     tNode* prev = NULL;
     while (*head) {
         prev = (*head)->next;

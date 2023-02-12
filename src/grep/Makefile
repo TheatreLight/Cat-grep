@@ -1,10 +1,10 @@
 all:
 
-s21_grep:
-	gcc main.c s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep
+wingrep:
+	gcc main.c wingrep.c wingrep_patterns.c ../common/parcer.c -o wingrep
 
 debug:
-	gcc main.c s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep -g
+	gcc main.c wingrep.c wingrep_patterns.c ../common/parcer.c -o wingrep -g
 
 test:
 	bash ./grep_tests/test.sh
@@ -14,7 +14,7 @@ check:
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h
 
 leaks:
-	leaks --atExit -- ./s21_grep -e all -e it grep_tests/new grep_tests/old
+	leaks --atExit -- ./wingrep -e all -e it grep_tests/new grep_tests/old
 
 clean:
-	rm s21_grep
+	rm wingrep

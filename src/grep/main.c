@@ -1,4 +1,4 @@
-#include "s21_grep.h"
+#include "wingrep.h"
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;
