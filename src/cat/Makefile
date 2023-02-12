@@ -1,10 +1,10 @@
 all:
 
-s_cat:
-	gcc main.c s_cat.c ../common/parcer.c -o s21_cat
+wincat:
+	gcc main.c wincat.c ../common/parcer.c -o wincat
 
 debug:
-	gcc main.c s_cat.c ../common/parcer.c -o s21_cat -g
+	gcc main.c wincat.c ../common/parcer.c -o wincat -g
 
 test:
 	bash ./tests/test.sh
@@ -13,8 +13,5 @@ check:
 	python3 ../../materials/linters/cpplint.py --extensions=c *.c *.h
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h
 
-leaks:
-	leaks --atExit -- ./s21_cat tests/new
-
 clean:
-	rm s21_cat
+	rm wincat

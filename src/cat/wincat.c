@@ -1,4 +1,4 @@
-#include "s_cat.h"
+#include "wincat.h"
 
 void cat(FILE *fp, int argc, char **argv, struct Bool flag) {
     if (flag.unknown) return;

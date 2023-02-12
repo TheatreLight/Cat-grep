@@ -1,4 +1,4 @@
-#include "s_cat.h"
+#include "wincat.h"
 
 int main(int argc, char** argv) {
     FILE *fp = NULL;

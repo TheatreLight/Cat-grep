@@ -1,5 +1,5 @@
 
-./s21_cat tests/new > out1
+./wincat tests/new > out1
 cat tests/new > out2
 
 string1=$(shasum out1)
@@ -17,7 +17,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -b tests/case_b > out1
+./wincat -b tests/case_b > out1
 cat -b tests/case_b > out2
 
 string1=$(shasum out1)
@@ -35,7 +35,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -n tests/case_n > out1
+./wincat -n tests/case_n > out1
 cat -n tests/case_n > out2
 
 string1=$(shasum out1)
@@ -53,7 +53,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -s tests/case_s > out1
+./wincat -s tests/case_s > out1
 cat -s tests/case_s > out2
 
 string1=$(shasum out1)
@@ -71,7 +71,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -e tests/case_e > out1
+./wincat -e tests/case_e > out1
 cat -e tests/case_e > out2
 
 string1=$(shasum out1)
@@ -89,7 +89,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -t tests/case_t > out1
+./wincat -t tests/case_t > out1
 cat -t tests/case_t > out2
 
 string1=$(shasum out1)
@@ -107,7 +107,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -E tests/case_upE > out1
+./wincat -E tests/case_upE > out1
 
 string1=$(shasum out1)
 string2=$(shasum tests/out3)
@@ -124,7 +124,7 @@ fi
 
 rm out1
 
-./s21_cat -T tests/case_upT > out1
+./wincat -T tests/case_upT > out1
 
 string1=$(shasum out1)
 string2=$(shasum tests/out4)
@@ -141,7 +141,7 @@ fi
 
 rm out1
 
-./s21_cat -bn tests/big_text > out1
+./wincat -bn tests/big_text > out1
 cat -bn tests/big_text > out2
 
 string1=$(shasum out1)
@@ -159,7 +159,7 @@ fi
 
 rm out1 out2
 
-./s21_cat --number tests/memory_case > out1
+./wincat --number tests/memory_case > out1
 if [[ "$OSTYPE" == "linux-gnu"* ]]
 then
 cat --number tests/memory_case > out2
@@ -183,7 +183,7 @@ fi
 
 rm out1 out2
 
-./s21_cat --number-nonblank tests/big_text > out1
+./wincat --number-nonblank tests/big_text > out1
 if [[ "$OSTYPE" == "linux-gnu"* ]]
 then
 cat --number-nonblank tests/big_text > out2
@@ -208,7 +208,7 @@ fi
 
 rm out1 out2
 
-./s21_cat --squeeze-blank tests/case_s > out1
+./wincat --squeeze-blank tests/case_s > out1
 if [[ "$OSTYPE" == "linux-gnu"* ]]
 then
 cat --squeeze-blank tests/case_s > out2
@@ -232,7 +232,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -nst tests/memory_case > out1
+./wincat -nst tests/memory_case > out1
 cat -nst tests/memory_case > out2
 
 string1=$(shasum out1)
@@ -250,7 +250,7 @@ fi
 
 rm out1 out2
 
-./s21_cat tests/hard_case > out1
+./wincat tests/hard_case > out1
 cat tests/hard_case > out2
 
 string1=$(shasum out1)
@@ -268,7 +268,7 @@ fi
 
 rm out1 out2
 
-./s21_cat -nse tests/big_text > out1
+./wincat -nse tests/big_text > out1
 cat -nse tests/big_text > out2
 
 string1=$(shasum out1)

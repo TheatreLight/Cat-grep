@@ -1,5 +1,5 @@
 all:
-	make -C cat/ s_cat
+	make -C cat/ wincat
 	make -C grep/ s21_grep
 
 test:

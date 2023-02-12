@@ -1,10 +1,10 @@
 all:
 
 s21_grep:
-	gcc s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep
+	gcc main.c s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep
 
 debug:
-	gcc s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep -g
+	gcc main.c s21_grep.c s21_grep_patterns.c ../common/parcer.c -o s21_grep -g
 
 test:
 	bash ./grep_tests/test.sh
