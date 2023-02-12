@@ -1,8 +1,8 @@
-#Bash utilities - cat and grep for windows: wincat & wingrep.
+# Bash utilities - cat and grep for windows: wincat & wingrep.
 
 There are no such a powerful utilities for working with files in Windows. Becuase of this I decided to write them.
 
-##Wincat.
+## Wincat.
 
 Implement the next Unix flags:
 -b, --nimber-nonblank
@@ -17,7 +17,7 @@ Implement the next Unix flags:
 -T    display TAB character as ^I;
 -v    use ^ and M- notation, except for LFD and TAB.
 
-##Wingrep.
+## Wingrep.
 
 Implement the next Unix flags:
 -e PATTERNS use PATTERNS as patterns. If this option use multiple times or combined with the -f option, search for all patterns given;
