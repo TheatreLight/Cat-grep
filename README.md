@@ -5,17 +5,17 @@ There are no such a powerful utilities for working with files in Windows. Becuas
 ## Wincat.
 
 Implement the next Unix flags:
--b, --nimber-nonblank
+* -b, --nimber-nonblank
       number nonempty output lines, overrides -n;
--e    equivalent to -vE;
--E    display $ at end of each line;
--n, --number
+* -e    equivalent to -vE;
+* -E    display $ at end of each line;
+* -n, --number
       number all output lines;
--s, --squeeze-blank
+* -s, --squeeze-blank
       suppress repeated output lines;
--t    equivalent -vT;
--T    display TAB character as ^I;
--v    use ^ and M- notation, except for LFD and TAB.
+* -t    equivalent -vT;
+* -T    display TAB character as ^I;
+* -v    use ^ and M- notation, except for LFD and TAB.
 
 ## Wingrep.
 
