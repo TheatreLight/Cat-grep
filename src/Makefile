@@ -2,10 +2,6 @@ all:
 	make -C cat/ wincat
 	make -C grep/ wingrep
 
-test:
-	make -C cat/ test
-	make -C grep/ test
-
 check:
 	make -C cat/ check
 	make -C grep/ check
