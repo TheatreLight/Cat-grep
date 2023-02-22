@@ -25,30 +25,30 @@ void grep(int argc, char **argv, FILE *fp, tNode **stack, struct Bool flags) {
           if (!flags.s) printf("s21_grep: %s: No such file or directory\n", argv[i]);
             continue;
         }
-      int line_number = 1;
-      while (fgetc(fp) != EOF) {
-        fseek(fp, -1, SEEK_CUR);
-        fgets(founded_match, 1024, fp);
-        *stack = start_address;
-        char *value = get_value(stack);
-        int is_match_found = GetMatches(value, stack, flags, &match_count, 
+        int line_number = 1;
+        while (fgetc(fp) != EOF) {
+          fseek(fp, -1, SEEK_CUR);
+          fgets(founded_match, 1024, fp);
+          *stack = start_address;
+          char *value = get_value(stack);
+          int is_match_found = GetMatches(value, stack, flags, &match_count, 
                         founded_match, line_number, argv[i], file_count, is_match_found);
-        if (is_match_found && flags.v) {
-          if (!flags.c) {
-            PrintLineWithMatch(argv[i], founded_match, flags.n, line_number, file_count);
+          if (is_match_found && flags.v) {
+            if (!flags.c) {
+              PrintLineWithMatch(argv[i], founded_match, flags.n, line_number, file_count);
+            }
+            match_count++;
           }
-          match_count++;
+          if (!is_match_found && flags.l) {
+            printf("%s\n", argv[i]);
+            break;
+          }
+          line_number++;
         }
-        if (!is_match_found && flags.l) {
-          printf("%s\n", argv[i]);
-          break;
+        if (flags.c && !flags.l) {
+          if (file_count > 1) printf("%s:", argv[i]);
+            printf("%d\n", match_count);
         }
-        line_number++;
-      }
-      if (flags.c && !flags.l) {
-        if (file_count > 1) printf("%s:", argv[i]);
-          printf("%d\n", match_count);
-      }
       fclose(fp);
     }
   }

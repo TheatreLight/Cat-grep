@@ -6,9 +6,6 @@ wingrep:
 debug:
 	gcc main.c wingrep.c wingrep_patterns.c ../common/parcer.c -o wingrep -g
 
-test:
-	bash ./grep_tests/test.sh
-
 check:
 	python3 ../../materials/linters/cpplint.py --extensions=c *.c *.h
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h
